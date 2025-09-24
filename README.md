@@ -1,6 +1,6 @@
 # Sorting Visualizer (WPF, C#)
 
-## 📌 About the Project
+## About the Project
 **Sorting Visualizer** is a learning project built with **C# and WPF** that demonstrates how different sorting algorithms work in real time.  
 
 The application allows you to:
@@ -13,7 +13,7 @@ The main goal of this project is to **practice clean coding, software architectu
 
 ---
 
-## 🛠️ Technologies
+## Technologies
 - **C# (.NET Framework / WPF)**
 - **XAML** for UI
 - **Asynchronous programming** (`async/await`)
@@ -21,14 +21,15 @@ The main goal of this project is to **practice clean coding, software architectu
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 SortingVisualizer/
 │
 ├─ Core/ # Sorting algorithms
-│ ├─ ISortAlgorithm.cs
+│ ├─ QuickSort.cs
+│ ├─ MergeSort.cs
 │ ├─ BubbleSort.cs
-│ └─ InsertionSort.cs
+│ └─ BubbleSort.cs
 │
 ├─ Visualization/ # Interfaces and classes for visualization
 │ ├─ IVisualizer.cs
