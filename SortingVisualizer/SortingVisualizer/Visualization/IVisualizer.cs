@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// Interface for visualizer
 using System.Threading.Tasks;
 
-namespace SortingVisualizer.Visiualization
+namespace SortingVisualizer.Visualization
 {
     public interface IVisualizer
     {
-        Task UpdateAsync(int[] array, int[] highlights = null);
+        // Method to update visualization asynchronously
+        Task UpdateAsync(int[] array);
     }
 }

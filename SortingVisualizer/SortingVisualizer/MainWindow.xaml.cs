@@ -1,10 +1,13 @@
 ﻿// Always use English comments
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using SortingVisualizer.Core;
+using SortingVisualizer.Visualization;
 
 namespace SortingVisualizer
 {
@@ -20,7 +23,7 @@ namespace SortingVisualizer
 
             // Button events
             ResetButton.Click += (s, e) => GenerateArray((int)ArraySizeSlider.Value);
-            StartButton.Click += (s, e) => StartSorting();
+            StartButton.Click += async (s, e) => await StartSortingAsync();
         }
 
         // Generate a new random array
@@ -54,10 +57,17 @@ namespace SortingVisualizer
             }
         }
 
-        // Start sorting (placeholder for now)
-        private void StartSorting()
+        // Start sorting array with selected algorithm
+        private async Task StartSortingAsync()
         {
-            MessageBox.Show($"Algorithm selected: {(AlgorithmComboBox.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content}");
+            // Create visualizer linked to Canvas
+            var visualizer = new Visualizer(ArrayCanvas);
+
+            // Boublle sorting
+            ISortAlgorithm sorter = new BubbleSort(array);
+
+            // Run sorting asynchronously (with visualization)
+            await sorter.SortAsync(visualizer);
         }
     }
 }
