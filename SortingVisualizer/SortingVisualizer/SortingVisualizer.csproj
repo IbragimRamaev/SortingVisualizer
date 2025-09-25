@@ -57,8 +57,8 @@
     </ApplicationDefinition>
     <Compile Include="Core\BubbleSort.cs" />
     <Compile Include="Core\ISortAlgorithm.cs" />
-    <Compile Include="Visiualization\IVisualizer.cs" />
-    <Compile Include="Visiualization\Visualizer.cs" />
+    <Compile Include="Visualization\IVisualizer.cs" />
+    <Compile Include="Visualization\Visualizer.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

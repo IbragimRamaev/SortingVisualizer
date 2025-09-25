@@ -1,12 +1,41 @@
 ﻿<Window x:Class="SortingVisualizer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SortingVisualizer"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Sorting Visualizer" Height="600" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Control panel -->
+            <RowDefinition Height="*"/>
+            <!-- Visualization area -->
+        </Grid.RowDefinitions>
+
+        <!-- Control panel -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
+            <!-- Algorithm selection -->
+            <ComboBox x:Name="AlgorithmComboBox" Width="150" Margin="5">
+                <ComboBoxItem Content="Bubble Sort"/>
+                <ComboBoxItem Content="Insertion Sort"/>
+                <ComboBoxItem Content="Selection Sort"/>
+                <ComboBoxItem Content="Quick Sort"/>
+                <ComboBoxItem Content="Merge Sort"/>
+            </ComboBox>
+
+            <!-- Array size -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Array Size:" VerticalAlignment="Center" Margin="5"/>
+                <Slider x:Name="ArraySizeSlider" Minimum="10" Maximum="200" Value="50" Width="150" Margin="5"/>
+                <TextBox x:Name="ArraySizeTextBox" 
+                         Text="{Binding ElementName=ArraySizeSlider, Path=Value, Mode=TwoWay}" 
+                         Width="50" Margin="5"/>
+            </StackPanel>
+
+            <!-- Buttons -->
+            <Button x:Name="StartButton" Content="Start" Width="100" Margin="5"/>
+            <Button x:Name="ResetButton" Content="Reset" Width="100" Margin="5"/>
+        </StackPanel>
+
+        <!-- Visualization area -->
+        <Canvas x:Name="ArrayCanvas" Grid.Row="1" Background="LightGray"/>
     </Grid>
 </Window>
