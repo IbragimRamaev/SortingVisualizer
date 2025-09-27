@@ -16,7 +16,7 @@ namespace SortingVisualizer.Visualization
         }
 
         // Async update method to redraw the array
-        public async Task UpdateAsync(int[] array)
+        public async Task UpdateAsync(int[] array, int[] highlights = null)
         {
             _canvas.Children.Clear();
 
@@ -27,18 +27,23 @@ namespace SortingVisualizer.Visualization
             for (int i = 0; i < array.Length; i++)
             {
                 double barHeight = (array[i] / (double)array.Length) * canvasHeight;
+
                 var rect = new Rectangle
                 {
                     Width = barWidth - 2,
                     Height = barHeight,
-                    Fill = Brushes.SteelBlue
+                    Fill = (highlights != null && highlights.Contains(i))
+                           ? Brushes.Red
+                           : Brushes.SteelBlue
                 };
+
                 Canvas.SetLeft(rect, i * barWidth);
                 Canvas.SetBottom(rect, 0);
                 _canvas.Children.Add(rect);
             }
 
-            await Task.Delay(50); // small delay for visualization
+            await Task.Delay(50);
         }
+
     }
 }

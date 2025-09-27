@@ -1,15 +1,15 @@
-﻿// Interface for sorting algorithms
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SortingVisualizer.Visualization;
 
 namespace SortingVisualizer.Core
 {
+    // Interface for all sorting algorithms
     public interface ISortAlgorithm
     {
-        // The array to sort
-        int[] Array { get; set; }
+        // Name of the algorithm
+        string Name { get; }
 
-        // Sort method with async for visualization
-        Task SortAsync(IVisualizer visualizer);
+        // Asynchronous sort method with visualization
+        Task SortAsync(int[] array, IVisualizer visualizer, int delayMs);
     }
 }

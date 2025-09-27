@@ -1,5 +1,4 @@
-﻿// Always use English comments
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,10 +15,16 @@ namespace SortingVisualizer
         private int[] array; // The array we will visualize
         private Random rand = new Random(); // Random generator
 
+        public object SpeedSlider { get; private set; }
+
         public MainWindow()
         {
-            InitializeComponent(); // Connects XAML with this C# file
+            InitializeComponent();
             GenerateArray((int)ArraySizeSlider.Value);
+
+            // Populate algorithm selection
+            AlgorithmComboBox.ItemsSource = new string[] { "Bubble Sort", "Insertion Sort", "Selection Sort" };
+            AlgorithmComboBox.SelectedIndex = 0;
 
             // Button events
             ResetButton.Click += (s, e) => GenerateArray((int)ArraySizeSlider.Value);
@@ -60,14 +65,34 @@ namespace SortingVisualizer
         // Start sorting array with selected algorithm
         private async Task StartSortingAsync()
         {
-            // Create visualizer linked to Canvas
             var visualizer = new Visualizer(ArrayCanvas);
 
-            // Boublle sorting
-            ISortAlgorithm sorter = new BubbleSort(array);
+            // Get selected algorithm from ComboBox
+            string selectedAlgorithm = ((ComboBoxItem)AlgorithmComboBox.SelectedItem).Content.ToString();
 
-            // Run sorting asynchronously (with visualization)
-            await sorter.SortAsync(visualizer);
+            // Create sorter instance
+            ISortAlgorithm sorter;
+            switch (selectedAlgorithm)
+            {
+                case "Bubble Sort":
+                    sorter = new BubbleSort(array);
+                    break;
+                case "Insertion Sort":
+                    sorter = new InsertionSort(array);
+                    break;
+                case "Selection Sort":
+                    sorter = new SelectionSort(array);
+                    break;
+                default:
+                    throw new Exception("Unknown sorting algorithm");
+            }
+
+            // Get delay in ms from slider
+            int delayMs = (int)SpeedSlider.Value;
+
+            // Run sorting asynchronously
+            await sorter.SortAsync(array, visualizer, delayMs);
         }
+
     }
 }
