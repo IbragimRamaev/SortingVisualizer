@@ -29,6 +29,14 @@
                          Text="{Binding ElementName=ArraySizeSlider, Path=Value, Mode=TwoWay}" 
                          Width="50" Margin="5"/>
             </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Speed (ms):" VerticalAlignment="Center" Margin="5"/>
+                <Slider x:Name="SpeedSlider" Minimum="1" Maximum="200" Value="50" Width="150" Margin="5"/>
+                <TextBox x:Name="SpeedTextBox" 
+             Text="{Binding ElementName=SpeedSlider, Path=Value, Mode=TwoWay}" 
+             Width="50" Margin="5"/>
+            </StackPanel>
 
             <!-- Buttons -->
             <Button x:Name="StartButton" Content="Start" Width="100" Margin="5"/>

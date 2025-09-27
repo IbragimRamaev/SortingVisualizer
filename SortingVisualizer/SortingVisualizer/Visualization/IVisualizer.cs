@@ -6,6 +6,6 @@ namespace SortingVisualizer.Visualization
     public interface IVisualizer
     {
         // Method to update visualization asynchronously
-        Task UpdateAsync(int[] array);
+        Task UpdateAsync(int[] array, int[] highlights = null);
     }
 }
