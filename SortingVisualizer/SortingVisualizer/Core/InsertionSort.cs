@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SortingVisualizer.Core
@@ -17,7 +18,7 @@ namespace SortingVisualizer.Core
             Name = "Insertion Sort";
         }
 
-        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs)
+        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs,CancellationToken token)
         {
             int n = array.Length;
 
@@ -34,7 +35,7 @@ namespace SortingVisualizer.Core
 
                     // Visualize shifting
                     await visualizer.UpdateAsync(array, new[] { i, j });
-                    await Task.Delay(delayMs);
+                    await Task.Delay(delayMs, token);
                 }
 
                 //Insert element at the correct position
@@ -43,11 +44,6 @@ namespace SortingVisualizer.Core
                 //Visualize after insertion
                 await visualizer.UpdateAsync(array, new[] { i });
             }
-        }
-
-        public Task SortAsync(IVisualizer visualizer)
-        {
-            throw new NotImplementedException();
         }
     }
 }

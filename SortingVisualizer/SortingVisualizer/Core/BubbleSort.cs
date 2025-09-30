@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using SortingVisualizer.Visualization;
 
 namespace SortingVisualizer.Core
@@ -15,7 +16,7 @@ namespace SortingVisualizer.Core
 
 
         // Sort method with visualization and delay
-        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs)
+        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs,CancellationToken token)
         {
             int n = array.Length;
 
@@ -30,11 +31,10 @@ namespace SortingVisualizer.Core
                         int temp = array[j];
                         array[j] = array[j + 1];
                         array[j + 1] = temp;
-
                         // Visualize swap
                         await visualizer.UpdateAsync(array, new[] { j, j + 1 });
-                        await Task.Delay(delayMs);
                     }
+                    await Task.Delay(delayMs, token);
                 }
             }
 

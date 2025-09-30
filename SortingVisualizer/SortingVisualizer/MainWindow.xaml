@@ -13,14 +13,7 @@
         <!-- Control panel -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5">
             <!-- Algorithm selection -->
-            <ComboBox x:Name="AlgorithmComboBox" Width="150" Margin="5">
-                <ComboBoxItem Content="Bubble Sort"/>
-                <ComboBoxItem Content="Insertion Sort"/>
-                <ComboBoxItem Content="Selection Sort"/>
-                <ComboBoxItem Content="Quick Sort"/>
-                <ComboBoxItem Content="Merge Sort"/>
-            </ComboBox>
-
+            <ComboBox x:Name="AlgorithmComboBox" Width="150" Margin="5"/>
             <!-- Array size -->
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Array Size:" VerticalAlignment="Center" Margin="5"/>

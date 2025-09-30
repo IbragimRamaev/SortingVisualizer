@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,9 +14,8 @@ namespace SortingVisualizer
     public partial class MainWindow : Window
     {
         private int[] array; // The array we will visualize
+        private CancellationTokenSource _cts;
         private Random rand = new Random(); // Random generator
-
-        public object SpeedSlider { get; private set; }
 
         public MainWindow()
         {
@@ -27,7 +27,11 @@ namespace SortingVisualizer
             AlgorithmComboBox.SelectedIndex = 0;
 
             // Button events
-            ResetButton.Click += (s, e) => GenerateArray((int)ArraySizeSlider.Value);
+            ResetButton.Click += (s, e) =>
+            {
+                _cts?.Cancel(); // Stop cycle
+                GenerateArray((int)ArraySizeSlider.Value); // recreat array
+            };
             StartButton.Click += async (s, e) => await StartSortingAsync();
         }
 
@@ -65,10 +69,11 @@ namespace SortingVisualizer
         // Start sorting array with selected algorithm
         private async Task StartSortingAsync()
         {
+            _cts = new CancellationTokenSource();
             var visualizer = new Visualizer(ArrayCanvas);
 
             // Get selected algorithm from ComboBox
-            string selectedAlgorithm = ((ComboBoxItem)AlgorithmComboBox.SelectedItem).Content.ToString();
+            string selectedAlgorithm = AlgorithmComboBox.SelectedItem as string;
 
             // Create sorter instance
             ISortAlgorithm sorter;
@@ -88,11 +93,19 @@ namespace SortingVisualizer
             }
 
             // Get delay in ms from slider
-            int delayMs = (int)SpeedSlider.Value;
+            int delayMs = (int)this.SpeedSlider.Value;
+            try
+            {
+                // Run sorting asynchronously
+                await sorter.SortAsync(array, new Visualizer(ArrayCanvas), delayMs,_cts.Token);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sorting was canceled.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
 
-            // Run sorting asynchronously
-            await sorter.SortAsync(array, visualizer, delayMs);
         }
+
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using SortingVisualizer.Visualization;
 
 namespace SortingVisualizer.Core
@@ -7,6 +8,9 @@ namespace SortingVisualizer.Core
     {
         // Algorithm name
         public string Name { get;}
+        private IVisualizer _visualizer;
+        private int _delay;
+        private CancellationToken _token;
 
         public MergeSort(int[] array)
         {
@@ -14,31 +18,35 @@ namespace SortingVisualizer.Core
         }
 
         // Public entry point
-        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs)
+        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs, CancellationToken token)
         {
-            await MergeSortRecursive(array, 0, array.Length - 1, visualizer, delayMs);
+            _visualizer = visualizer;
+            _delay = delayMs;
+            _token = token;
+
+            await MergeSortRecursive(array, 0, array.Length - 1);
         }
 
         // Recursive merge sort
-        private async Task MergeSortRecursive(int[] array, int left, int right, IVisualizer visualizer, int delayMs)
+        private async Task MergeSortRecursive(int[] array, int left, int right)
         {
             if (left < right)
             {
                 int middle = (left + right) / 2;
 
                 // Sort first half
-                await MergeSortRecursive(array, left, middle, visualizer, delayMs);
+                await MergeSortRecursive(array, left, middle);
 
                 // Sort second half
-                await MergeSortRecursive(array, middle + 1, right, visualizer, delayMs);
+                await MergeSortRecursive(array, middle + 1, right);
 
                 // Merge both halves
-                await Merge(array, left, middle, right, visualizer, delayMs);
+                await Merge(array, left, middle, right);
             }
         }
 
         // Merge two sorted halves
-        private async Task Merge(int[] array, int left, int middle, int right, IVisualizer visualizer, int delayMs)
+        private async Task Merge(int[] array, int left, int middle, int right)
         {
             int n1 = middle - left + 1;
             int n2 = right - middle;
@@ -68,8 +76,8 @@ namespace SortingVisualizer.Core
                 }
 
                 k++;
-                await visualizer.UpdateAsync(array);
-                await Task.Delay(delayMs);
+                await _visualizer.UpdateAsync(array);
+                await Task.Delay(_delay,_token);
             }
 
             // Copy remaining elements of L[]
@@ -79,8 +87,8 @@ namespace SortingVisualizer.Core
                 iIndex++;
                 k++;
 
-                await visualizer.UpdateAsync(array);
-                await Task.Delay(delayMs);
+                await _visualizer.UpdateAsync(array);
+                await Task.Delay(_delay,_token);
             }
 
             // Copy remaining elements of R[]
@@ -90,8 +98,8 @@ namespace SortingVisualizer.Core
                 jIndex++;
                 k++;
 
-                await visualizer.UpdateAsync(array);
-                await Task.Delay(delayMs);
+                await _visualizer.UpdateAsync(array);
+                await Task.Delay(_delay,_token);
             }
         }
     }

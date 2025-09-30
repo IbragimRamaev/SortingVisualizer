@@ -56,7 +56,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\BubbleSort.cs" />
+    <Compile Include="Core\InsertionSort.cs" />
     <Compile Include="Core\ISortAlgorithm.cs" />
+    <Compile Include="Core\MergeSort .cs" />
+    <Compile Include="Core\SelectionSort.cs" />
     <Compile Include="Visualization\IVisualizer.cs" />
     <Compile Include="Visualization\Visualizer.cs" />
     <Page Include="MainWindow.xaml">
