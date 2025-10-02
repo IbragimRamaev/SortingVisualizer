@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using SortingVisualizer.Visualization;
 
@@ -11,6 +12,6 @@ namespace SortingVisualizer.Core
         string Name { get; }
 
         // Asynchronous sort method with visualization
-        Task SortAsync(int[] array, IVisualizer visualizer, int delayMs,CancellationToken token);
+        Task SortAsync(int[] array, IVisualizer visualizer, Func<int> getDelay,CancellationToken token);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using SortingVisualizer.Visualization;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace SortingVisualizer.Core
             Name = "SelectionSort";
         }
 
-        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs,CancellationToken token)
+        public async Task SortAsync(int[] array, IVisualizer visualizer, Func<int> getDelay,CancellationToken token)
         {
             int n = array.Length;
 
@@ -30,7 +31,7 @@ namespace SortingVisualizer.Core
 
                     // Visualize current comparison
                     await visualizer.UpdateAsync(array, new[] { i, j, minIndex });
-                    await Task.Delay(delayMs,token);
+                    await Task.Delay(getDelay(), token);
                 }
 
                 // Swap found minimum element with the first element

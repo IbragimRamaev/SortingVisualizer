@@ -14,8 +14,10 @@ namespace SortingVisualizer
     public partial class MainWindow : Window
     {
         private int[] array; // The array we will visualize
+        private bool _isSorting;
         private CancellationTokenSource _cts;
         private Random rand = new Random(); // Random generator
+
 
         public MainWindow()
         {
@@ -23,7 +25,7 @@ namespace SortingVisualizer
             GenerateArray((int)ArraySizeSlider.Value);
 
             // Populate algorithm selection
-            AlgorithmComboBox.ItemsSource = new string[] { "Bubble Sort", "Insertion Sort", "Selection Sort" };
+            AlgorithmComboBox.ItemsSource = new string[] { "Bubble Sort", "Insertion Sort", "Selection Sort", "MergeSort" };
             AlgorithmComboBox.SelectedIndex = 0;
 
             // Button events
@@ -69,6 +71,11 @@ namespace SortingVisualizer
         // Start sorting array with selected algorithm
         private async Task StartSortingAsync()
         {
+            if (_isSorting) return;
+            _isSorting = true;
+
+            GenerateArray((int)ArraySizeSlider.Value);
+
             _cts = new CancellationTokenSource();
             var visualizer = new Visualizer(ArrayCanvas);
 
@@ -88,6 +95,9 @@ namespace SortingVisualizer
                 case "Selection Sort":
                     sorter = new SelectionSort(array);
                     break;
+                case "MergeSort":
+                    sorter = new MergeSort(array);
+                    break;
                 default:
                     throw new Exception("Unknown sorting algorithm");
             }
@@ -97,11 +107,24 @@ namespace SortingVisualizer
             try
             {
                 // Run sorting asynchronously
-                await sorter.SortAsync(array, new Visualizer(ArrayCanvas), delayMs,_cts.Token);
+                await sorter.SortAsync(
+                        array,
+                        visualizer,
+                        () =>
+                        {
+                            int speed = (int)SpeedSlider.Value;
+                            if (speed >= 1000) return 0;       
+                            return Math.Max(1, 1000 / speed);  
+                        },
+                        _cts.Token);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Sorting was canceled.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Console.WriteLine("Sorting was canceled");
+            }
+            finally
+            {
+                _isSorting = false; 
             }
 
         }

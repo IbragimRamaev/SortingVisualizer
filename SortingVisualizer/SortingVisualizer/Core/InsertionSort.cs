@@ -18,7 +18,7 @@ namespace SortingVisualizer.Core
             Name = "Insertion Sort";
         }
 
-        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs,CancellationToken token)
+        public async Task SortAsync(int[] array, IVisualizer visualizer, Func<int> getDelay,CancellationToken token)
         {
             int n = array.Length;
 
@@ -35,7 +35,7 @@ namespace SortingVisualizer.Core
 
                     // Visualize shifting
                     await visualizer.UpdateAsync(array, new[] { i, j });
-                    await Task.Delay(delayMs, token);
+                    await Task.Delay(getDelay(), token);
                 }
 
                 //Insert element at the correct position

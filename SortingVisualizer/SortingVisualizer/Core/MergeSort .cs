@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using SortingVisualizer.Visualization;
 
@@ -18,10 +19,10 @@ namespace SortingVisualizer.Core
         }
 
         // Public entry point
-        public async Task SortAsync(int[] array, IVisualizer visualizer, int delayMs, CancellationToken token)
+        public async Task SortAsync(int[] array, IVisualizer visualizer, Func<int> getDelay, CancellationToken token)
         {
             _visualizer = visualizer;
-            _delay = delayMs;
+            _delay = getDelay();
             _token = token;
 
             await MergeSortRecursive(array, 0, array.Length - 1);
@@ -76,7 +77,7 @@ namespace SortingVisualizer.Core
                 }
 
                 k++;
-                await _visualizer.UpdateAsync(array);
+                await _visualizer.UpdateAsync(array, new[] {k});
                 await Task.Delay(_delay,_token);
             }
 
@@ -87,7 +88,7 @@ namespace SortingVisualizer.Core
                 iIndex++;
                 k++;
 
-                await _visualizer.UpdateAsync(array);
+                await _visualizer.UpdateAsync(array, new[] {k});
                 await Task.Delay(_delay,_token);
             }
 
@@ -98,7 +99,7 @@ namespace SortingVisualizer.Core
                 jIndex++;
                 k++;
 
-                await _visualizer.UpdateAsync(array);
+                await _visualizer.UpdateAsync(array, new[] { k });
                 await Task.Delay(_delay,_token);
             }
         }
