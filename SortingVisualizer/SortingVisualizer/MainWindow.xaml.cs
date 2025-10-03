@@ -82,6 +82,14 @@ namespace SortingVisualizer
             }
         }
 
+        private void Size_Changer(object sender, SizeChangedEventArgs e)
+        {
+            if (array != null && array.Length > 0)
+            {
+                DrawArray();
+            }
+        }
+
         // Start sorting array with selected algorithm
         private async Task StartSortingAsync()
         {
