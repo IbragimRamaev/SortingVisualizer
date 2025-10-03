@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using SortingVisualizer.Core;
 using SortingVisualizer.Visualization;
+using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace SortingVisualizer
 {
@@ -27,6 +29,18 @@ namespace SortingVisualizer
             // Populate algorithm selection
             AlgorithmComboBox.ItemsSource = new string[] { "Bubble Sort", "Insertion Sort", "Selection Sort", "MergeSort" };
             AlgorithmComboBox.SelectedIndex = 0;
+
+            DispatcherTimer memoryTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            memoryTimer.Tick += (s, e) =>
+            {
+                long bytes = Process.GetCurrentProcess().PrivateMemorySize64;
+                double mb = bytes / 1024d / 1024d; // bytes → kilobytes → megabytes
+                MemoryUsageText.Text = $"Memory: {mb:0.0} MB";
+            };
+            memoryTimer.Start();
 
             // Button events
             ResetButton.Click += (s, e) =>
@@ -120,7 +134,7 @@ namespace SortingVisualizer
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Sorting was canceled");
+                Console.WriteLine($"Sorting was canceled {ex}");
             }
             finally
             {

@@ -22,7 +22,7 @@
                          Text="{Binding ElementName=ArraySizeSlider, Path=Value, Mode=TwoWay}" 
                          Width="50" Margin="5"/>
             </StackPanel>
-            
+
             <StackPanel Orientation="Horizontal" Margin="5">
                 <TextBlock Text="Speed (ms):" VerticalAlignment="Center" Margin="5"/>
                 <Slider x:Name="SpeedSlider" Minimum="1" Maximum="1000" Value="100" Width="150" Margin="5"/>
@@ -36,6 +36,14 @@
             <Button x:Name="ResetButton" Content="Reset" Width="100" Margin="5"/>
         </StackPanel>
 
+        <TextBlock x:Name="MemoryUsageText"
+           HorizontalAlignment="Right"
+           VerticalAlignment="Bottom"
+           Margin="1"
+           Foreground="Black"
+           FontSize="12"
+           FontWeight="normal"
+           Panel.ZIndex="1"/>
         <!-- Visualization area -->
         <Canvas x:Name="ArrayCanvas" Grid.Row="1" Background="LightGray"/>
     </Grid>
