@@ -26,10 +26,10 @@ The main goal of this project is to **practice clean coding, software architectu
 SortingVisualizer/
 │
 ├─ Core/ # Sorting algorithms
-│ ├─ QuickSort.cs
+│ ├─ InsertionSort.cs
 │ ├─ MergeSort.cs
 │ ├─ BubbleSort.cs
-│ └─ BubbleSort.cs
+│ └─ SelectionSort.cs
 │
 ├─ Visualization/ # Interfaces and classes for visualization
 │ ├─ IVisualizer.cs
@@ -37,7 +37,5 @@ SortingVisualizer/
 │
 ├─ UI/ # UI code (MainWindow.xaml and .cs)
 │
-├─ MainWindow.xaml # Main window
-├─ MainWindow.xaml.cs
 ├─ App.xaml
 └─ App.xaml.cs
